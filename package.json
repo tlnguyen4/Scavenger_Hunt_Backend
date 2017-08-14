@@ -1,0 +1,24 @@
+{
+  "name": "scavengerhuntbackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tlnguyen4/scavengerHuntBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tlnguyen4/scavengerHuntBackend/issues"
+  },
+  "homepage": "https://github.com/tlnguyen4/scavengerHuntBackend#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.7"
+  }
+}
