@@ -32,6 +32,7 @@ app.post('/register', function(req, res) {
   });
 });
 
-// app.listen(3000, function() {
-//   console.log("Backend server for Scavenger Hunt running on port 3000");
-// });
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function() {
+  console.log("Backend server for Scavenger Hunt running on port 3000");
+});
