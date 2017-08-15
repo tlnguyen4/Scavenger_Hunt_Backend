@@ -40,6 +40,7 @@ app.post('/login', function(req, res) {
         error: "User does not exist. Please sign up before logging in."
       });
     } else if (user.password !== req.body.password) {
+      console.log("user", user);
       res.send({
         login: false,
         error: "Wrong Password"
