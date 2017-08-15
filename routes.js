@@ -32,6 +32,26 @@ app.post('/register', function(req, res) {
   });
 });
 
+app.post('/login', function(req, res) {
+  User.find({username: req.body.username}, function(err, user) {
+    if (err) {
+      res.send({
+        login: false,
+        error: "User does not exist. Please sign up before logging in."
+      });
+    } else if (user.password !== req.body.password) {
+      res.send({
+        login: false,
+        error: "Wrong Password"
+      });
+    } else if (user.password === req.body.password) {
+      res.send({
+        login: true
+      })l
+    }
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
   console.log("Backend server for Scavenger Hunt running on port 3000");
