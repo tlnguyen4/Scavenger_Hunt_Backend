@@ -33,22 +33,24 @@ app.post('/register', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
+  console.log(req.body.username, req.body.password);
   User.findOne({username: req.body.username}, function(err, user) {
     if (err) {
       res.send({
         login: false,
         error: "User does not exist. Please sign up before logging in."
       });
-    } else if (user.password !== req.body.password) {
-      console.log("user", user);
-      res.send({
-        login: false,
-        error: "Wrong Password"
-      });
-    } else if (user.password === req.body.password) {
-      res.send({
-        login: true
-      });
+    } else if (user) {
+      if (user.password !== req.body.password) {
+        res.send({
+          login: false,
+          error: "Wrong Password"
+        });
+      } else if (user.password === req.body.password) {
+        res.send({
+          login: true
+        });
+      }
     }
   });
 });
