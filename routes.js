@@ -18,7 +18,7 @@ app.post('/register', function(req, res) {
     name: req.body.name,
     username: req.body.username,
     password: req.body.password
-  }).save(function(err) {
+  }).save(function(err, user) {
     if (err) {
       res.send({
         register: false,
@@ -27,6 +27,7 @@ app.post('/register', function(req, res) {
     } else {
       res.send({
         register: true,
+        user: user
       });
     }
   });
