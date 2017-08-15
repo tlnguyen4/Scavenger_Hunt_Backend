@@ -33,7 +33,7 @@ app.post('/register', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  User.find({username: req.body.username}, function(err, user) {
+  User.findOne({username: req.body.username}, function(err, user) {
     if (err) {
       res.send({
         login: false,
