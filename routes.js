@@ -47,7 +47,7 @@ app.post('/login', function(req, res) {
     } else if (user.password === req.body.password) {
       res.send({
         login: true
-      })l
+      });
     }
   });
 });
