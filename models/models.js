@@ -19,6 +19,8 @@ const userSchema = mongoose.Schema({
 const gameSchema = mongoose.Schema({
   creator: String,
   creatorID: String,
+  location: Object,
+  hint: Object,
   players: Object,
 })
 
