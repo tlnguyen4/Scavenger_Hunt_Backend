@@ -61,7 +61,7 @@ app.post('/login', function(req, res) {
 app.post('/newHunt', function(req, res) {
   new Game({
     creator: req.body.creator,
-    creatorID: req.body.id,
+    creatorID: req.body.creatorID,
   }).save(function(err, game) {
     if (err) {
       res.send({
