@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const models = require('./models/models');
 const User = models.User;
+const Game = models.Game;
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -53,6 +54,25 @@ app.post('/login', function(req, res) {
           user: user
         });
       }
+    }
+  });
+});
+
+app.post('/newHunt', function(req, res) {
+  new Game({
+    creator: req.body.creator,
+    creatorID: req.body.id,
+  }).save(function(err, game) {
+    if (err) {
+      res.send({
+        created: false,
+        error: "Cannot create new game"
+      })
+    } else {
+      res.send({
+        created: true,
+        game: game
+      });
     }
   });
 });
