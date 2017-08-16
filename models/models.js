@@ -13,14 +13,14 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String
   },
-  game: String
+  gameID: String
 });
 
 const gameSchema = mongoose.Schema({
   creator: String,
   creatorID: String,
-  location: Object,
-  hint: Object,
+  locations: Object,
+  hints: Object,
   players: Object,
 })
 
