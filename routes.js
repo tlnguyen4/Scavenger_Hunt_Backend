@@ -48,9 +48,8 @@ app.post('/login', function(req, res) {
           error: "Wrong Password"
         });
       } else if (user.password === req.body.password) {
-        console.log("this is user", user);
-        if (user.game) {
-          Game.findById(user.game, function(err, game) {
+        if (user.gameID) {
+          Game.findById(user.gameID, function(err, game) {
             res.send({
               login: true,
               user: user,
