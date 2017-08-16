@@ -72,6 +72,8 @@ app.post('/newHunt', function(req, res) {
   new Game({
     creator: req.body.creator,
     creatorID: req.body.creatorID,
+    locations: [],
+    players: []
   }).save(function(err, game) {
     if (err) {
       res.send({
@@ -101,6 +103,8 @@ app.post('/newHunt', function(req, res) {
 
 app.post('/addLocation', function(req, res) {
   Game.findById(req.body.gameID, function(err, game) {
+    console.log("game*******", game);
+    console.log("locationName", req.body.locationName, req.body.locationHint);
     game.locations.push({name: req.body.locationName, hint: req.body.locationHint});
     game.save(function(err) {
       if (err) {
@@ -126,11 +130,10 @@ app.post('/getLocations', function(req, res) {
         error: "Cannot find game."
       })
     } else {
-      console.log("game*******", game);
       res.send({
         retrieved: true,
-        locations: game.locations || [],
-        players: game.players || []
+        locations: game.locations,
+        players: game.players
       })
     }
   })
