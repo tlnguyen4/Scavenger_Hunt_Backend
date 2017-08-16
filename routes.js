@@ -120,7 +120,6 @@ app.post('/addLocation', function(req, res) {
 
 app.post('/getLocations', function(req, res) {
   Game.findById(req.body.gameID, function(err, game) {
-    console.log("this is game *******", game);
     if (err) {
       res.send({
         retrieved: false,
@@ -129,8 +128,8 @@ app.post('/getLocations', function(req, res) {
     } else {
       res.send({
         retrieved: true,
-        locations: game.locations,
-        players: game.players
+        locations: game.locations || [],
+        players: game.players || []
       })
     }
   })
