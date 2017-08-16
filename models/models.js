@@ -19,8 +19,8 @@ const userSchema = mongoose.Schema({
 const gameSchema = mongoose.Schema({
   creator: String,
   creatorID: String,
-  locations: Object,
-  players: Object,
+  locations: Array,
+  players: Array,
 })
 
 const User = mongoose.model('User', userSchema);
