@@ -103,7 +103,9 @@ app.post('/newHunt', function(req, res) {
 
 app.post('/addLocation', function(req, res) {
   Game.findById(req.body.gameID, function(err, game) {
-    game.locations.push({name: req.body.locationName, hint: req.body.locationHint});
+    var updateLocations = game.locations;
+    updateLocations.push({name: req.body.locationName, hint: req.body.locationHint});
+    game.locations = updateLocations;
     game.save(function(err, game2) {
       console.log("updated game**********", game2);
       if (err) {
