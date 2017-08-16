@@ -126,6 +126,7 @@ app.post('/getLocations', function(req, res) {
         error: "Cannot find game."
       })
     } else {
+      console.log("game*******", game);
       res.send({
         retrieved: true,
         locations: game.locations || [],
