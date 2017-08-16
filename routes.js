@@ -79,9 +79,21 @@ app.post('/newHunt', function(req, res) {
         error: "Cannot create new game"
       })
     } else {
-      res.send({
-        created: true,
-        game: game
+      User.findById(req.body.creatorID, function(err, user) {
+        user.game = game._id;
+        user.save(function(err) {
+          if (err) {
+            res.send({
+              created: false,
+              error: "Cannot save new data to user."
+            })
+          } else {
+            res.send({
+              created: true,
+              game: game
+            });
+          }
+        });
       });
     }
   });
