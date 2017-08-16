@@ -99,6 +99,44 @@ app.post('/newHunt', function(req, res) {
   });
 });
 
+app.post('/addLocation', function(req, res) {
+  Game.findById(req.body.gameID, function(err, game) {
+    game.locations.push(req.body.locationName);
+    game.hints.push(req.body.locationHint);
+    game.save(function(err) {
+      if (err) {
+        res.send({
+          added: false,
+          error: "Cannot add location in route."
+        })
+      } else {
+        res.send({
+          added: true,
+          error: null
+        })
+      }
+    })
+  })
+})
+
+app.post('/getLocations', function(req, res) {
+  Game.findById(req.body.gameID, function(err, game) {
+    if (err) {
+      res.send({
+        retrieved: false,
+        error: "Cannot find game."
+      })
+    } else {
+      res.send({
+        retrieved: true,
+        locations: game.locations,
+        hints: game.hints,
+        players: game.players
+      })
+    }
+  })
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
   console.log("Backend server for Scavenger Hunt running on port 3000");
