@@ -101,8 +101,7 @@ app.post('/newHunt', function(req, res) {
 
 app.post('/addLocation', function(req, res) {
   Game.findById(req.body.gameID, function(err, game) {
-    game.locations.push(req.body.locationName);
-    game.hints.push(req.body.locationHint);
+    game.locations.push({name: req.body.locationName, hint: req.body.locationHint});
     game.save(function(err) {
       if (err) {
         res.send({
@@ -130,7 +129,6 @@ app.post('/getLocations', function(req, res) {
       res.send({
         retrieved: true,
         locations: game.locations,
-        hints: game.hints,
         players: game.players
       })
     }

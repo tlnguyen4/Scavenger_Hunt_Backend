@@ -20,7 +20,6 @@ const gameSchema = mongoose.Schema({
   creator: String,
   creatorID: String,
   locations: Object,
-  hints: Object,
   players: Object,
 })
 
