@@ -107,7 +107,6 @@ app.post('/addLocation', function(req, res) {
     updateLocations.push({name: req.body.locationName, hint: req.body.locationHint});
     game.locations = updateLocations;
     game.save(function(err, game2) {
-      console.log("updated game**********", game2);
       if (err) {
         res.send({
           added: false,
@@ -116,7 +115,7 @@ app.post('/addLocation', function(req, res) {
       } else {
         res.send({
           added: true,
-          error: null
+          locations: game2.locations,
         })
       }
     })
