@@ -80,7 +80,7 @@ app.post('/newHunt', function(req, res) {
       })
     } else {
       User.findById(req.body.creatorID, function(err, user) {
-        user.game = game._id;
+        user.gameID = game._id;
         user.save(function(err) {
           if (err) {
             res.send({
