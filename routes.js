@@ -35,7 +35,6 @@ app.post('/register', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  console.log(req.body.username, req.body.password);
   User.findOne({username: req.body.username}, function(err, user) {
     if (err) {
       res.send({
@@ -49,10 +48,21 @@ app.post('/login', function(req, res) {
           error: "Wrong Password"
         });
       } else if (user.password === req.body.password) {
-        res.send({
-          login: true,
-          user: user
-        });
+        if (user.game) {
+          Game.findById(user.game, function(err, game) {
+            res.send({
+              login: true,
+              user: user,
+              game: game,
+            });
+          });
+        } else {
+          res.send({
+            login: true,
+            user: user,
+            game: null
+          });
+        }
       }
     }
   });
