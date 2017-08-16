@@ -106,6 +106,7 @@ app.post('/addLocation', function(req, res) {
     game.locations.push({name: req.body.locationName, hint: req.body.locationHint});
     console.log("Game locations*******", game.locations);
     game.save(function(err) {
+      console.log(err);
       if (err) {
         res.send({
           added: false,
