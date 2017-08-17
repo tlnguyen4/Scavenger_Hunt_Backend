@@ -143,12 +143,9 @@ app.post('/deleteHunt', function(req, res) {
   Game.findById(req.body.gameID, function(err, game) {
     var playerArray = game.players;
     playerArray.push(req.body.creatorID);
-    console.log("this is playerArray, should have 1 id", playerArray);
     removeGameFromPlayer(playerArray)
       .then(updatedPlayerObject => {
-        console.log("updated player object", updatedPlayerObject);
-        Game.remove({_id: req.body.gameID});
-        console.log("got here too********");
+        Game.findOneandRemove({_id: req.body.gameID});
         res.send({
           deleted: true
         })
@@ -168,11 +165,9 @@ const removeGameFromPlayer = function(playerArray) {
     })
     Promise.all(playerPromise)
       .then(playerObjects => {
-        console.log("playerObjects", playerObjects);
         playerObjects.map(eachObject => {
           eachObject.gameID = '';
           eachObject.save(function(err, updatedPlayer) {
-            console.log("updated player without the game", updatedPlayer);
             if (err) {
               reject(err);
             } else {
