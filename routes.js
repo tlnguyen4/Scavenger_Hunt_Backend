@@ -170,7 +170,7 @@ const removeGameFromPlayer = function(playerArray) {
       .then(playerObjects => {
         console.log("playerObjects", playerObjects);
         playerObjects.map(eachObject => {
-          eachObject.game = '';
+          eachObject.gameID = '';
           eachObject.save(function(err, updatedPlayer) {
             console.log("updated player without the game", updatedPlayer);
             if (err) {
