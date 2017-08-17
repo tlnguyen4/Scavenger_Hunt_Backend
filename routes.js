@@ -145,7 +145,7 @@ app.post('/deleteHunt', function(req, res) {
     playerArray.push(req.body.creatorID);
     removeGameFromPlayer(playerArray)
       .then(updatedPlayerObject => {
-        Game.remove(req.body.gameID);
+        Game.remove({_id: req.body.gameID});
         res.send({
           deleted: true
         })
