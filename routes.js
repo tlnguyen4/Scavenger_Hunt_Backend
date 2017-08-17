@@ -142,32 +142,37 @@ app.post('/getLocations', function(req, res) {
 app.post('/deleteHunt', function(req, res) {
   Game.findById(req.body.gameID).exec()
     .then(game => {
-      console.log(game);
+      var playerArray = game.players;
+      playerArray.push(req.body.creatorID);
+      removeGameFromPlayer(playerArray)
+        .then(updatedPlayerObject => {
+          Game.remove({_id: req.body.gameID}, err => {
+            if (err) {
+              console.log("ERROR*****", err);
+              res.send({
+                deleted: false
+              })
+            } else {
+              res.send({
+                deleted: true
+              })
+            }
+          })
+        })
+        .catch(err => {
+          res.send({
+            deleted: false,
+            error: err
+          })
+        })
+    })
+    .catch(err => {
       res.send({
-        deleted: true
+        deleted: false,
+        error: err
       })
     })
 })
-
-
-
-// var playerArray = game.players;
-// playerArray.push(req.body.creatorID);
-// removeGameFromPlayer(playerArray)
-//   .then(updatedPlayerObject => {
-//     Game.findOneAndRemove({_id: req.body.gameID});
-//     res.send({
-//       deleted: true
-//     })
-//   })
-//   .catch(err => {
-//     res.send({
-//       deleted: false,
-//       error: err
-//     })
-//   })
-
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
