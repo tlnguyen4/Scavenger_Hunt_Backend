@@ -5,7 +5,7 @@ const User = models.User;
 const Game = models.Game;
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -139,7 +139,45 @@ app.post('/getLocations', function(req, res) {
   })
 })
 
+app.post('/deleteHunt', function(req, res) {
+  Game.findById(req.body.gameID, function(err, game) {
+    var playerArray = game.players;
+    playerArray.push(req.body.creatorID);
+    removeGameFromPlayer(playerArray)
+      .then(updatedPlayerObject => {
+        Game.remove(req.body.gameID);
+        res.send({
+          deleted: true
+        })
+      })
+  })
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
   console.log("Backend server for Scavenger Hunt running on port 3000");
 });
+
+const removeGameFromPlayer = function(playerArray) {
+  return new Promise(function(resolve, reject) {
+    var playerPromise = playerArray.map(function(id) {
+      return User.findById(id).exec();
+    })
+    Promise.all(playerPromise)
+      .then(playerObjects => {
+        playerObjects.map(eachObject => {
+          eachObject.game = '';
+          eachObject.save(function(err, updatedPlayer) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(updatedPlayer);
+            }
+          })
+        })
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
