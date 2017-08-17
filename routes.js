@@ -150,6 +150,12 @@ app.post('/deleteHunt', function(req, res) {
           deleted: true
         })
       })
+      .catch(err => {
+        res.send({
+          deleted: false,
+          error: err
+        })
+      })
   })
 })
 
