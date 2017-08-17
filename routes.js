@@ -168,9 +168,11 @@ const removeGameFromPlayer = function(playerArray) {
     })
     Promise.all(playerPromise)
       .then(playerObjects => {
+        console.log("playerObjects", playerObjects);
         playerObjects.map(eachObject => {
           eachObject.game = '';
           eachObject.save(function(err, updatedPlayer) {
+            console.log("updated player without the game", updatedPlayer);
             if (err) {
               reject(err);
             } else {
