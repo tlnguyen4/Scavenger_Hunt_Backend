@@ -13,7 +13,9 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String
   },
-  gameID: String
+  gameID: String,
+  gameProgress: Object,
+  progressIndex: Number
 });
 
 const gameSchema = mongoose.Schema({
