@@ -106,42 +106,43 @@ app.post('/joinHunt', function(req, res) {
     .then(game => {
       game.players.push(req.body.playerID);
       game.save(function(err, updatedGame) {
+        console.log("err98", err);
         if (err) {
           res.send({
             joined: false,
             error: err
           })
         } else {
-          return updatedGame;
+          User.findById(req.body.playerID).exec()
+            .then(player => {
+              player.gameID = req.body.gameID;
+              player.save(err => {
+                if (err) {
+                  console.log("error 4", err);
+                  res.send({
+                    joined: false,
+                    error: err,
+                  });
+                } else {
+                  res.send({
+                    joined: true,
+                    creatorID: updatedGame.creatorID,
+                  });
+                }
+              });
+            })
+            .catch(err => {
+              console.log("err 3", err);
+              res.send({
+                joined: false,
+                error: err
+              })
+            })
         }
       })
     })
-    .then(updatedGame => {
-      User.findById(req.body.playerID).exec()
-        .then(player => {
-          player.gameID = req.body.gameID;
-          player.save(err => {
-            if (err) {
-              res.send({
-                joined: false,
-                error: err,
-              });
-            } else {
-              res.send({
-                joined: true,
-                creatorID: updatedGame.creatorID,
-              });
-            }
-          });
-        })
-        .catch(err => {
-          res.send({
-            joined: false,
-            error: err
-          })
-        })
-    })
     .catch(err => {
+      console.log("error 2", err);
       res.send({
         joined: false,
         error: err
