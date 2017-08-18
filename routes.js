@@ -101,6 +101,54 @@ app.post('/newHunt', function(req, res) {
   });
 });
 
+app.post('/joinHunt', function(req, res) {
+  Game.findById(req.body.gameID).exec()
+    .then(game => {
+      game.players.push(req.body.playerID);
+      game.save(function(err, updatedGame) {
+        if (err) {
+          res.send({
+            joined: false,
+            error: err
+          })
+        } else {
+          return updatedGame;
+        }
+      })
+    })
+    .then(updatedGame => {
+      User.findById(req.body.playerID).exec()
+        .then(player => {
+          player.gameID = req.body.gameID;
+          player.save(err => {
+            if (err) {
+              res.send({
+                joined: false,
+                error: err,
+              });
+            } else {
+              res.send({
+                joined: true,
+                creatorID: updatedGame.creatorID,
+              });
+            }
+          });
+        })
+        .catch(err => {
+          res.send({
+            joined: false,
+            error: err
+          })
+        })
+    })
+    .catch(err => {
+      res.send({
+        joined: false,
+        error: err
+      })
+    })
+})
+
 app.post('/addLocation', function(req, res) {
   Game.findById(req.body.gameID, function(err, game) {
     var updateLocations = game.locations;
