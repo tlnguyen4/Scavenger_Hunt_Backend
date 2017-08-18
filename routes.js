@@ -162,9 +162,11 @@ app.post('/getProgress', function(req, res) {
         error: err
       })
     } else {
-      progress: true,
-      gameProgress: player.gameProgress,
-      progressIndex: player.progressIndex
+      res.send({
+        progress: true,
+        gameProgress: player.gameProgress,
+        progressIndex: player.progressIndex
+      })
     }
   })
 })
