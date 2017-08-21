@@ -282,20 +282,26 @@ app.post('/leaveHunt', function(req, res) {
             error: err
           })
         } else {
-          console.log(req.body.gameID);
           Game.findById(req.body.gameID).exec()
             .then(game => {
-              console.log("got here!!!!!!!!!!!!!!!", game);
               game.players.forEach((playerID, index) => {
                 if (playerID === req.body.playerID) {
-                  console.log(game.players.length);
                   game.players.splice(index, 1);
-                  console.log(game.players.length);
                   return;
                 }
               })
-              res.send({
-                left: true
+              game.save(err => {
+                if (err) {
+                  res.send({
+                    left: false,
+                    error: err
+                  })
+                } else {
+                  res.send({
+                    left: true,
+                    error: err
+                  })
+                }
               })
             })
             .catch(err => {
