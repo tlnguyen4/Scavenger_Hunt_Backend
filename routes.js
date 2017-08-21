@@ -244,7 +244,7 @@ app.post('/deleteHunt', function(req, res) {
           Game.findByIdAndRemove(req.body.gameID, err => {
             if (err) {
               res.send({
-                deleted: false
+                deleted: false,
                 error: err
               })
             } else {
