@@ -208,6 +208,32 @@ app.post('/getLocations', function(req, res) {
   })
 })
 
+app.post('/checkIn', function(req, res) {
+  User.findById(req.body.playerID).exec()
+    .then(player => {
+      player.progressIndex = player.progressIndex + 1;
+      player.save((err, updatedPlayer) => {
+        if (err) {
+          res.send({
+            checked: false,
+            error: err;
+          });
+        } else {
+          res.send({
+            checked: true,
+            progressIndex: updatedPlayer.progressIndex
+          });
+        }
+      })
+    })
+    .catch(err => {
+      res.send({
+        checked: false,
+        error: err
+      });
+    });
+})
+
 app.post('/deleteHunt', function(req, res) {
   Game.findById(req.body.gameID).exec()
     .then(game => {
