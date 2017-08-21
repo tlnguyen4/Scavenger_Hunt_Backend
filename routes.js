@@ -268,6 +268,48 @@ app.post('/deleteHunt', function(req, res) {
     })
 })
 
+app.post('/leaveHunt', function(req, res) {
+  User.findById(req.body.playerID).exec()
+    .then(player => {
+      player.gameID = '';
+      player.gameProgress = [];
+      player.progressIndex = null;
+      player.save(err => {
+        if (err) {
+          res.send({
+            left: false,
+            error: err
+          })
+        } else {
+          Game.findById(req.body.gameID).exec()
+            .then(game => {
+              game.players.forEach((playerID, index) => {
+                if (playerID === req.body.playerID) {
+                  game.players.splice(index, 1);
+                  return;
+                }
+              })
+              res.send({
+                left: true
+              })
+            })
+            .catch(err => {
+              res.send({
+                left: false,
+                error: err
+              })
+            })
+        }
+      })
+    })
+    .catch(err => {
+      res.send({
+        left: false,
+        error: err
+      })
+    })
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
   console.log("Backend server for Scavenger Hunt running on port 3000");
