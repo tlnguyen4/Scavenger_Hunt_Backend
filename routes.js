@@ -245,6 +245,7 @@ app.post('/deleteHunt', function(req, res) {
             if (err) {
               res.send({
                 deleted: false
+                error: err
               })
             } else {
               res.send({
