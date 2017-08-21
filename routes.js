@@ -276,6 +276,7 @@ app.post('/leaveHunt', function(req, res) {
       player.progressIndex = null;
       player.save(err => {
         if (err) {
+          console.log(err);
           res.send({
             left: false,
             error: err
@@ -283,6 +284,7 @@ app.post('/leaveHunt', function(req, res) {
         } else {
           Game.findById(req.body.gameID).exec()
             .then(game => {
+              console.log("got here!!!!!!!!!!!!!!!");
               game.players.forEach((playerID, index) => {
                 if (playerID === req.body.playerID) {
                   console.log(game.players.length);
@@ -296,6 +298,7 @@ app.post('/leaveHunt', function(req, res) {
               })
             })
             .catch(err => {
+              console.log(err);
               res.send({
                 left: false,
                 error: err
