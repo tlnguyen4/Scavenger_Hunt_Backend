@@ -216,12 +216,12 @@ app.post('/checkIn', function(req, res) {
         if (err) {
           res.send({
             checked: false,
-            error: err
+            error: err,
           });
         } else {
           res.send({
             checked: true,
-            progressIndex: updatedPlayer.progressIndex
+            progressIndex: updatedPlayer.progressIndex,
           });
         }
       })
@@ -229,7 +229,7 @@ app.post('/checkIn', function(req, res) {
     .catch(err => {
       res.send({
         checked: false,
-        error: err
+        error: err,
       });
     });
 })
