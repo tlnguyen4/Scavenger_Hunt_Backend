@@ -285,7 +285,9 @@ app.post('/leaveHunt', function(req, res) {
             .then(game => {
               game.players.forEach((playerID, index) => {
                 if (playerID === req.body.playerID) {
+                  console.log(game.players.length);
                   game.players.splice(index, 1);
+                  console.log(game.players.length);
                   return;
                 }
               })
