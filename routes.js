@@ -324,6 +324,8 @@ const removeGameFromPlayer = function(playerArray) {
       .then(playerObjects => {
         playerObjects.map(eachObject => {
           eachObject.gameID = '';
+          eachObject.progressIndex = null;
+          eachObject.gameProgress = [];
           eachObject.save(function(err, updatedPlayer) {
             if (err) {
               reject(err);
