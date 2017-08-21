@@ -282,6 +282,7 @@ app.post('/leaveHunt', function(req, res) {
             error: err
           })
         } else {
+          console.log(req.body.gameID);
           Game.findById(req.body.gameID).exec()
             .then(game => {
               console.log("got here!!!!!!!!!!!!!!!", game);
