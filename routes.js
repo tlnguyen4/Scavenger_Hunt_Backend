@@ -216,7 +216,7 @@ app.post('/checkIn', function(req, res) {
         if (err) {
           res.send({
             checked: false,
-            error: err;
+            error: err
           });
         } else {
           res.send({
