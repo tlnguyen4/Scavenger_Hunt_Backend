@@ -239,6 +239,39 @@ app.post('/checkIn', function(req, res) {
     });
 })
 
+app.post('/deleteLocation', function(req, res) {
+  Game.findById(req.body.gameID).exec()
+    .then(game => {
+      var newArr = game.locations.slice();
+      game.locations.forEach((location, index) => {
+        if (location.lat === req.body.lat && location.long === req.body.long) {
+          newArr.splice(index, 1);
+          return;
+        }
+      })
+      game.locations = newArr;
+      game.save((err, updatedGame) => {
+        if (err) {
+          res.send({
+            deleted: false,
+            error: err,
+          })
+        } else {
+          res.send({
+            deleted: true,
+            locations: updatedGame.locations
+          })
+        }
+      })
+    })
+    .catch(err => {
+      res.send({
+        deleted: false,
+        error: err
+      })
+    })
+})
+
 app.post('/deleteHunt', function(req, res) {
   Game.findById(req.body.gameID).exec()
     .then(game => {
