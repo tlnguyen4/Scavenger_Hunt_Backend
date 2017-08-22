@@ -277,7 +277,6 @@ app.post('/leaveHunt', function(req, res) {
     .then(player => {
       player.gameID = '';
       player.gameProgress = [];
-      player.progressIndex = null;
       player.save(err => {
         if (err) {
           console.log(err);
@@ -340,7 +339,6 @@ const removeGameFromPlayer = function(playerArray) {
       .then(playerObjects => {
         playerObjects.map(eachObject => {
           eachObject.gameID = '';
-          eachObject.progressIndex = null;
           eachObject.gameProgress = [];
           eachObject.save(function(err, updatedPlayer) {
             if (err) {
