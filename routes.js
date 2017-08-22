@@ -214,6 +214,7 @@ app.post('/getLocations', function(req, res) {
 app.post('/checkIn', function(req, res) {
   User.findById(req.body.playerID).exec()
     .then(player => {
+      console.log("before^^^^", player.gameProgress);
       player.gameProgress[req.body.index] = true;
       player.save((err, updatedPlayer) => {
         if (err) {
@@ -222,6 +223,7 @@ app.post('/checkIn', function(req, res) {
             error: err,
           });
         } else {
+          console.log("after****", updatedPlayer.gameProgress);
           res.send({
             checked: true,
             gameProgress: updatedPlayer.gameProgress,
