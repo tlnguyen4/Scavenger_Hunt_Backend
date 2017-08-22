@@ -215,7 +215,9 @@ app.post('/checkIn', function(req, res) {
   User.findById(req.body.playerID).exec()
     .then(player => {
       console.log("before^^^^", player.gameProgress);
-      player.gameProgress[req.body.index] = true;
+      var array = player.gameProgress.slice();
+      array[req.body.index] = true;
+      player.gameProgress = array;
       player.save((err, updatedPlayer) => {
         if (err) {
           res.send({
