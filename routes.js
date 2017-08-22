@@ -106,7 +106,6 @@ app.post('/joinHunt', function(req, res) {
     .then(game => {
       game.players.push(req.body.playerID);
       game.save(function(err, updatedGame) {
-        console.log("err98", err);
         if (err) {
           res.send({
             joined: false,
@@ -116,11 +115,9 @@ app.post('/joinHunt', function(req, res) {
           User.findById(req.body.playerID).exec()
             .then(player => {
               player.gameID = req.body.gameID;
-              player.gameProgress = updatedGame.locations;
-              player.progressIndex = 0;
+              player.gameProgress = Array(game.locations.length).fill(false);
               player.save((err, updatedPlayer) => {
                 if (err) {
-                  console.log("error 4", err);
                   res.send({
                     joined: false,
                     error: err,
@@ -128,9 +125,7 @@ app.post('/joinHunt', function(req, res) {
                 } else {
                   res.send({
                     joined: true,
-                    creatorID: updatedGame.creatorID,
-                    gameProgress: updatedPlayer.gameProgress,
-                    progressIndex: updatedPlayer.progressIndex,
+                    creatorID: updatedGame.creatorID
                   });
                 }
               });
@@ -162,11 +157,21 @@ app.post('/getProgress', function(req, res) {
         error: err
       })
     } else {
-      res.send({
-        progress: true,
-        gameProgress: player.gameProgress,
-        progressIndex: player.progressIndex
-      })
+      Game.findById(player.gameID).exec()
+        .then(game => {
+          res.send({
+            progress: true,
+            gameProgress: player.gameProgress,
+            game: game.locations,
+            gameID: player.gameID
+          })
+        })
+        .catch(err => {
+          res.send({
+            progress: false,
+            error: err
+          })
+        })
     }
   })
 })
