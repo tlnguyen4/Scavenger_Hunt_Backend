@@ -214,7 +214,6 @@ app.post('/getLocations', function(req, res) {
 app.post('/checkIn', function(req, res) {
   User.findById(req.body.playerID).exec()
     .then(player => {
-      console.log("before^^^^", player.gameProgress);
       var array = player.gameProgress.slice();
       array[req.body.index] = true;
       player.gameProgress = array;
@@ -225,7 +224,6 @@ app.post('/checkIn', function(req, res) {
             error: err,
           });
         } else {
-          console.log("after****", updatedPlayer.gameProgress);
           res.send({
             checked: true,
             gameProgress: updatedPlayer.gameProgress,
@@ -283,7 +281,6 @@ app.post('/leaveHunt', function(req, res) {
       player.gameProgress = [];
       player.save(err => {
         if (err) {
-          console.log(err);
           res.send({
             left: false,
             error: err
@@ -312,7 +309,6 @@ app.post('/leaveHunt', function(req, res) {
               })
             })
             .catch(err => {
-              console.log(err);
               res.send({
                 left: false,
                 error: err
