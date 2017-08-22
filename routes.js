@@ -131,7 +131,6 @@ app.post('/joinHunt', function(req, res) {
               });
             })
             .catch(err => {
-              console.log("err 3", err);
               res.send({
                 joined: false,
                 error: err
@@ -141,7 +140,6 @@ app.post('/joinHunt', function(req, res) {
       })
     })
     .catch(err => {
-      console.log("error 2", err);
       res.send({
         joined: false,
         error: err
@@ -216,7 +214,7 @@ app.post('/getLocations', function(req, res) {
 app.post('/checkIn', function(req, res) {
   User.findById(req.body.playerID).exec()
     .then(player => {
-      player.progressIndex = player.progressIndex + 1;
+      player.gameProgress[req.body.index] = true;
       player.save((err, updatedPlayer) => {
         if (err) {
           res.send({
@@ -226,7 +224,7 @@ app.post('/checkIn', function(req, res) {
         } else {
           res.send({
             checked: true,
-            progressIndex: updatedPlayer.progressIndex,
+            gameProgress: updatedPlayer.gameProgress,
           });
         }
       })
