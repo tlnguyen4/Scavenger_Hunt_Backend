@@ -14,6 +14,27 @@ app.get('/', function(req, res) {
   res.send('Heroku running!');
 })
 
+app.post('/checkUsername', function(req, res) {
+  User.findOne({username: req.body.username}, function(err, user) {
+    if (err) {
+      res.send({
+        checked: false,
+        error: err,
+      })
+    } else if (user) {
+      res.send({
+        checked: true,
+        existed: true,
+      })
+    } else {
+      res.send({
+        checked: true,
+        existed: false,
+      })
+    }
+  })
+})
+
 app.post('/register', function(req, res) {
   new User({
     name: req.body.name,
